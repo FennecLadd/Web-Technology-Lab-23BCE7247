@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercise 1 – HTML5 Canvas</title>
+</head>
+<body>
+
+<h2>Deep Learning Project – Canvas Visualization</h2>
+
+<canvas id="myCanvas" width="500" height="300" style="border:2px solid black;"></canvas>
+
+<script>
+    const canvas = document.getElementById("myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Filled Rectangle (Dataset)
+    ctx.fillStyle = "#4CAF50";
+    ctx.fillRect(40, 40, 150, 80);
+
+    // Filled Circle (Neural Network)
+    ctx.beginPath();
+    ctx.arc(350, 80, 40, 0, 2 * Math.PI);
+    ctx.fillStyle = "#2196F3";
+    ctx.fill();
+
+    // Straight Line (Data Flow)
+    ctx.beginPath();
+    ctx.moveTo(190, 80);
+    ctx.lineTo(310, 80);
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Text
+    ctx.font = "22px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("HTML5 Canvas", 160, 200);
+</script>
+
+</body>
+</html>

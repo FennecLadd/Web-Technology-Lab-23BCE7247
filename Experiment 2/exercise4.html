@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DL MRI – User Management</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #f4f6f9;
+        padding: 20px;
+    }
+    h2 { color: #1e3c72; }
+    .box {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        max-width: 700px;
+    }
+    input {
+        padding: 8px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    button {
+        padding: 8px;
+        margin-right: 5px;
+    }
+    table {
+        width: 100%;
+        margin-top: 15px;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #aaa;
+        padding: 8px;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Brain Tumor MRI – Research User Management</h2>
+<div class="box">
+
+<p>
+This system manages registered researchers, students, and collaborators
+working on the deep learning–based brain tumor MRI classification project.
+</p>
+
+<input id="name" placeholder="Researcher Name">
+<input id="email" placeholder="Email">
+<input id="mobile" placeholder="Mobile Number">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="register()">Register</button>
+<button onclick="clearAll()">Clear All Users</button>
+
+<table>
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Mobile</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody id="table"></tbody>
+</table>
+
+</div>
+
+<script>
+function register() {
+    const n = name.value, e = email.value, m = mobile.value, p = password.value;
+
+    if (!n || !e || !m || !p) return alert("All fields mandatory");
+    if (m.length !== 10) return alert("Mobile must be 10 digits");
+    if (p.length < 6) return alert("Password minimum 6 characters");
+
+    let users = JSON.parse(localStorage.getItem("dlUsers")) || [];
+    if (users.some(u => u.email === e)) return alert("Email already exists");
+
+    users.push({ name: n, email: e, mobile: m });
+    localStorage.setItem("dlUsers", JSON.stringify(users));
+    load();
+}
+
+function load() {
+    table.innerHTML = "";
+    (JSON.parse(localStorage.getItem("dlUsers")) || []).forEach((u,i) => {
+        table.innerHTML += `
+        <tr>
+            <td>${u.name}</td>
+            <td>${u.email}</td>
+            <td>${u.mobile}</td>
+            <td><button onclick="del(${i})">Delete</button></td>
+        </tr>`;
+    });
+}
+
+function del(i) {
+    let users = JSON.parse(localStorage.getItem("dlUsers"));
+    users.splice(i,1);
+    localStorage.setItem("dlUsers", JSON.stringify(users));
+    load();
+}
+
+function clearAll() {
+    localStorage.removeItem("dlUsers");
+    load();
+}
+
+load();
+</script>
+
+</body>
+</html>

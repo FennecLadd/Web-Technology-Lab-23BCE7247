@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DL MRI – Task Manager</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #eef2f7;
+        padding: 20px;
+    }
+    h2 { color: #34495e; }
+    input { padding: 8px; width: 250px; }
+    button { padding: 8px; }
+
+    .board {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .column {
+        width: 30%;
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        min-height: 250px;
+    }
+    .task {
+        background: #ecf0f1;
+        padding: 8px;
+        margin: 6px 0;
+        cursor: grab;
+        border-left: 5px solid #2980b9;
+    }
+    .completed {
+        background: #c8f7c5;
+        border-left-color: #27ae60;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Brain Tumor MRI – Research Task Board</h2>
+<p>
+This task board manages the deep learning pipeline including preprocessing,
+CNN training, LNN integration, evaluation, and manuscript preparation.
+</p>
+
+<input id="taskInput" placeholder="Enter DL Task">
+<button onclick="addTask()">Add Task</button>
+
+<div class="board">
+    <div class="column" id="todo" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <h3>To Do</h3>
+    </div>
+    <div class="column" id="progress" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <h3>In Progress</h3>
+    </div>
+    <div class="column" id="done" ondragover="allowDrop(event)" ondrop="drop(event)">
+        <h3>Completed</h3>
+    </div>
+</div>
+
+<script>
+let i = 0;
+
+function addTask() {
+    const txt = taskInput.value;
+    if (!txt) return;
+
+    const task = document.createElement("div");
+    task.className = "task";
+    task.id = "task" + i++;
+    task.draggable = true;
+    task.ondragstart = e => e.dataTransfer.setData("id", task.id);
+    task.innerHTML = `<b>${txt}</b><br>${new Date().toLocaleDateString()}`;
+    todo.appendChild(task);
+    taskInput.value = "";
+}
+
+function allowDrop(e) { e.preventDefault(); }
+
+function drop(e) {
+    e.preventDefault();
+    const task = document.getElementById(e.dataTransfer.getData("id"));
+    e.target.closest(".column").appendChild(task);
+
+    if (e.target.closest(".column").id === "done") {
+        task.classList.add("completed");
+        alert("Task Completed Successfully");
+    }
+}
+</script>
+
+</body>
+</html>

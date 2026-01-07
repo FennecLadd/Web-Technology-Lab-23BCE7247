@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DL MRI – Audio & Video</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #f4f6f9;
+        padding: 20px;
+    }
+    h2 {
+        color: #2c3e50;
+    }
+    .box {
+        background: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        max-width: 600px;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Brain Tumor MRI – Multimedia Explanation</h2>
+
+<div class="box">
+<h3>🎧 Audio: Project Overview</h3>
+<p>
+This audio explains the motivation, dataset, CNN–LNN architecture,
+and performance metrics used in the brain tumor MRI classification project.
+</p>
+<audio id="audio" controls>
+    <source src="audio.mp3" type="audio/mpeg">
+</audio>
+<p>Current Time: <span id="aTime">0</span> sec</p>
+</div>
+
+<div class="box">
+<h3>🎥 Video: Model Training & Evaluation</h3>
+<p>
+This video demonstrates MRI preprocessing, CNN feature extraction,
+LNN temporal modeling, and final classification results.
+</p>
+<video id="video" width="100%" controls>
+    <source src="video.mp4" type="video/mp4">
+</video>
+<p>Current Time: <span id="vTime">0</span> sec</p>
+</div>
+
+<script>
+audio.ontimeupdate = () =>
+    aTime.innerText = audio.currentTime.toFixed(1);
+
+video.ontimeupdate = () =>
+    vTime.innerText = video.currentTime.toFixed(1);
+</script>
+
+</body>
+</html>
