@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Multi Stage Form</title>
+<style>
+.stage{display:none}
+.active{display:block}
+.progress{height:10px;background:#ccc}
+.bar{height:10px;background:green;width:0%}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<form>
+<div class="stage active">
+<input placeholder="Name">
+<button type="button" onclick="next(1)">Next</button>
+</div>
+
+<div class="stage">
+<input placeholder="Email">
+<button type="button" onclick="next(2)">Next</button>
+</div>
+
+<div class="stage">
+<input placeholder="Password">
+<button type="button" onclick="next(3)">Next</button>
+</div>
+
+<div class="stage">
+<input placeholder="Confirm">
+<button>Submit</button>
+</div>
+</form>
+
+<script>
+let stages=document.querySelectorAll(".stage");
+
+function next(n){
+ stages[n-1].classList.remove("active");
+ stages[n].classList.add("active");
+ document.getElementById("bar").style.width=(n*25)+"%";
+}
+</script>
+
+</body>
+</html>

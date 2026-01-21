@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Activity Monitor</title>
+<style>
+body{font-family:Arial}
+#log{height:200px;overflow:auto;border:1px solid #000;padding:5px}
+</style>
+</head>
+<body>
+
+<h3>User Activity Monitor</h3>
+<div id="log"></div>
+<button onclick="reset()">Reset</button>
+
+<script>
+let activities=[];
+
+function logEvent(e){
+ activities.push({type:e.type,time:new Date().toLocaleTimeString()});
+ document.getElementById("log").innerHTML+=e.type+"<br>";
+ if(activities.length>10) alert("Suspicious Activity Detected");
+}
+
+document.addEventListener("click",logEvent,true);
+document.addEventListener("keydown",logEvent,true);
+
+function reset(){
+ activities=[];
+ document.getElementById("log").innerHTML="";
+}
+</script>
+
+</body>
+</html>

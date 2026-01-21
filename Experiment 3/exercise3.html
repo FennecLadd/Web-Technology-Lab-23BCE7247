@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Survey</title>
+<style>
+body{font-family:Arial;background:#fafafa}
+.container{width:500px;margin:auto}
+.error{color:red}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h3>Survey Form</h3>
+<form id="survey"></form>
+<button onclick="validate()">Submit</button>
+</div>
+
+<script>
+let questions=[
+{q:"Name",type:"text",req:true},
+{q:"Gender",type:"radio",opts:["Male","Female"],req:true},
+{q:"Skills",type:"checkbox",opts:["Java","Python"],req:true}
+];
+
+let form=document.getElementById("survey");
+
+questions.forEach((x,i)=>{
+ let div=document.createElement("div");
+ div.innerHTML="<p>"+x.q+"</p>";
+ if(x.type==="text") div.innerHTML+=`<input id="q${i}">`;
+ if(x.type==="radio")
+  x.opts.forEach(o=>div.innerHTML+=`<input type="radio" name="q${i}">${o}`);
+ if(x.type==="checkbox")
+  x.opts.forEach(o=>div.innerHTML+=`<input type="checkbox">${o}`);
+ form.appendChild(div);
+});
+
+function validate(){
+ alert("Survey Submitted Successfully");
+}
+</script>
+
+</body>
+</html>

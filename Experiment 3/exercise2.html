@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Shopping Cart</title>
+<style>
+body{font-family:Arial;background:#eef}
+table{width:60%;margin:auto;border-collapse:collapse}
+th,td{border:1px solid #000;padding:8px;text-align:center}
+button{padding:5px}
+</style>
+</head>
+<body>
+
+<h2 align="center">Shopping Cart</h2>
+
+<table id="cart">
+<tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+</table>
+
+<p align="center">Coupon: <input id="coupon"> <button onclick="apply()">Apply</button></p>
+<p align="center"><b id="grand"></b></p>
+
+<script>
+let items=[
+{name:"Laptop",price:50000,qty:1},
+{name:"Mouse",price:500,qty:2}
+];
+
+function load(){
+ let table=document.getElementById("cart");
+ let sum=0;
+ table.innerHTML="<tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr>";
+ items.forEach(i=>{
+ let total=i.price*i.qty;
+ sum+=total;
+ table.innerHTML+=`<tr><td>${i.name}</td><td>${i.price}</td><td>${i.qty}</td><td>${total}</td></tr>`;
+ });
+ document.getElementById("grand").innerText="Total: "+sum;
+}
+
+function apply(){
+ let code=document.getElementById("coupon").value.toUpperCase();
+ let discount=0;
+ if(code==="SAVE10") discount=0.1;
+ let total=parseInt(document.getElementById("grand").innerText.split(":")[1]);
+ document.getElementById("grand").innerText="Discounted Total: "+(total-total*discount);
+}
+
+load();
+</script>
+
+</body>
+</html>

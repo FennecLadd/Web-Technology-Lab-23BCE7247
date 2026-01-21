@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Adaptive Registration</title>
+<style>
+body{font-family:Arial;background:#f4f6f9}
+form{width:400px;margin:40px auto;background:#fff;padding:20px;border-radius:8px}
+input,select{width:100%;padding:8px;margin:6px 0}
+.error{border:2px solid red}
+.success{border:2px solid green}
+.hidden{display:none}
+button{background:#4CAF50;color:#fff;padding:10px;border:none;width:100%}
+</style>
+</head>
+<body>
+
+<form onsubmit="return validateForm()">
+<h3>Registration Form</h3>
+
+<input type="text" id="name" placeholder="Name">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+<input type="password" id="cpassword" placeholder="Confirm Password">
+<input type="number" id="age" placeholder="Age">
+
+<select id="role" onchange="roleChange()">
+<option value="">Select Role</option>
+<option>Student</option>
+<option>Teacher</option>
+<option>Admin</option>
+</select>
+
+<input type="text" id="skills" class="hidden" placeholder="Skills">
+
+<button type="submit">Register</button>
+</form>
+
+<script>
+function roleChange(){
+ let role=document.getElementById("role").value;
+ let skills=document.getElementById("skills");
+ skills.classList.toggle("hidden",role==="Admin");
+}
+
+function validateForm(){
+ let email=document.getElementById("email");
+ let pass=document.getElementById("password");
+ let cpass=document.getElementById("cpassword");
+ let role=document.getElementById("role").value;
+
+ if(!email.value.endsWith("@gmail.com")){alert("Invalid Email Domain");return false;}
+
+ if(role==="Admin" && pass.value.length<8){alert("Admin password must be strong");return false;}
+
+ if(pass.value!==cpass.value){alert("Passwords mismatch");return false;}
+
+ alert("Registration Successful");
+ return false;
+}
+</script>
+
+</body>
+</html>
