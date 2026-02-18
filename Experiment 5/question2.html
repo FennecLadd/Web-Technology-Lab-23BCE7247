@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library Book Tracker</title>
+</head>
+
+<body>
+
+    <h2>Library Book Tracker</h2>
+
+    <input id="bid" placeholder="Book ID">
+    <input id="btitle" placeholder="Title">
+    <input id="bauthor" placeholder="Author">
+    <button onclick="addBook()">Add Book</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable"></tbody>
+    </table>
+
+    <script>
+        let bookXML;
+
+        function loadBooks() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "books.xml", true);
+            xhr.onload = () => {
+                bookXML = xhr.responseXML;
+                showBooks();
+            };
+            xhr.send();
+        }
+
+        function showBooks() {
+            let rows = "";
+            let books = bookXML.getElementsByTagName("book");
+            for (let b of books) {
+                rows += `
+        <tr>
+            <td>${b.getElementsByTagName("id")[0].textContent}</td>
+            <td>${b.getElementsByTagName("title")[0].textContent}</td>
+            <td>${b.getElementsByTagName("author")[0].textContent}</td>
+            <td>${b.getElementsByTagName("status")[0].textContent}</td>
+            <td><button onclick="deleteBook('${b.getElementsByTagName("id")[0].textContent}')">Delete</button></td>
+        </tr>`;
+            }
+            bookTable.innerHTML = rows;
+        }
+
+        function addBook() {
+            let book = bookXML.createElement("book");
+            ["id", "title", "author", "status"].forEach((t, i) => {
+                let el = bookXML.createElement(t);
+                el.textContent = i === 3 ? "Available" : document.getElementById("b" + t[0]).value;
+                book.appendChild(el);
+            });
+            bookXML.documentElement.appendChild(book);
+            showBooks();
+        }
+
+        function deleteBook(id) {
+            let books = bookXML.getElementsByTagName("book");
+            for (let b of books) {
+                if (b.getElementsByTagName("id")[0].textContent === id) {
+                    b.remove();
+                    break;
+                }
+            }
+            showBooks();
+        }
+
+        loadBooks();
+    </script>
+</body>
+
+</html>

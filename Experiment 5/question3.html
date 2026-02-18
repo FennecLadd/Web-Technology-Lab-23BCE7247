@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Record System</title>
+</head>
+
+<body>
+
+    <h2>Student Record System</h2>
+
+    <input id="sid" placeholder="ID">
+    <input id="sname" placeholder="Name">
+    <input id="scourse" placeholder="Course">
+    <input id="smarks" placeholder="Marks">
+    <button onclick="addStudent()">Add</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Marks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="stuTable"></tbody>
+    </table>
+
+    <script>
+        let students = [];
+
+        fetch("students.json")
+            .then(res => res.json())
+            .then(data => { students = data; display(); })
+            .catch(() => alert("JSON Parsing Error"));
+
+        function display() {
+            stuTable.innerHTML = students.map(s => `
+        <tr>
+            <td>${s.id}</td><td>${s.name}</td>
+            <td>${s.course}</td><td>${s.marks}</td>
+            <td><button onclick="del(${s.id})">Delete</button></td>
+        </tr>
+    `).join("");
+        }
+
+        function addStudent() {
+            students.push({
+                id: sid.value,
+                name: sname.value,
+                course: scourse.value,
+                marks: smarks.value
+            });
+            display();
+        }
+
+        function del(id) {
+            students = students.filter(s => s.id != id);
+            display();
+        }
+    </script>
+</body>
+
+</html>

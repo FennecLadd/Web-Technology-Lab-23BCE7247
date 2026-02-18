@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Product Inventory</title>
+    <style>
+        .low {
+            background-color: #ffcccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Product Inventory</h2>
+
+    <input id="search" placeholder="Search Category" onkeyup="filter()">
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody id="invTable"></tbody>
+    </table>
+
+    <h3>Total Inventory Value: ₹<span id="total"></span></h3>
+
+    <script>
+        let products = [];
+
+        fetch("inventory.json")
+            .then(res => res.json())
+            .then(data => { products = data; render(products); });
+
+        function render(data) {
+            let sum = 0;
+            invTable.innerHTML = data.map(p => {
+                sum += p.price * p.stock;
+                return `
+        <tr class="${p.stock < 10 ? 'low' : ''}">
+            <td>${p.id}</td><td>${p.name}</td>
+            <td>${p.category}</td><td>${p.price}</td><td>${p.stock}</td>
+        </tr>`;
+            }).join("");
+            total.innerText = sum;
+        }
+
+        function filter() {
+            let cat = search.value.toLowerCase();
+            render(products.filter(p => p.category.toLowerCase().includes(cat)));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Employee Management System</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        th {
+            background: #f2f2f2;
+        }
+
+        .msg {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Employee Management System</h2>
+
+    <input id="eid" placeholder="ID">
+    <input id="ename" placeholder="Name">
+    <input id="edept" placeholder="Department">
+    <input id="esalary" placeholder="Salary">
+    <button onclick="addEmployee()">Add</button>
+
+    <p id="message"></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="empTable"></tbody>
+    </table>
+
+    <script>
+        let xmlDoc;
+
+        function loadEmployees() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "employees.xml", true);
+            xhr.onload = function () {
+                try {
+                    xmlDoc = xhr.responseXML;
+                    if (!xmlDoc) throw "Malformed XML";
+                    displayEmployees();
+                } catch (e) {
+                    document.getElementById("message").innerHTML =
+                        "<span class='error'>XML Error</span>";
+                }
+            };
+            xhr.send();
+        }
+
+        function displayEmployees() {
+            let rows = "";
+            let employees = xmlDoc.getElementsByTagName("employee");
+            for (let emp of employees) {
+                rows += `
+        <tr>
+            <td>${emp.getElementsByTagName("id")[0].textContent}</td>
+            <td>${emp.getElementsByTagName("name")[0].textContent}</td>
+            <td>${emp.getElementsByTagName("department")[0].textContent}</td>
+            <td>${emp.getElementsByTagName("salary")[0].textContent}</td>
+            <td>
+                <button onclick="deleteEmployee('${emp.getElementsByTagName("id")[0].textContent}')">Delete</button>
+            </td>
+        </tr>`;
+            }
+            document.getElementById("empTable").innerHTML = rows;
+        }
+
+        function addEmployee() {
+            let emp = xmlDoc.createElement("employee");
+
+            ["id", "name", "department", "salary"].forEach(tag => {
+                let el = xmlDoc.createElement(tag);
+                el.textContent = document.getElementById("e" + tag[0]).value;
+                emp.appendChild(el);
+            });
+
+            xmlDoc.documentElement.appendChild(emp);
+            displayEmployees();
+            document.getElementById("message").innerHTML =
+                "<span class='msg'>Employee added successfully</span>";
+        }
+
+        function deleteEmployee(id) {
+            let employees = xmlDoc.getElementsByTagName("employee");
+            for (let emp of employees) {
+                if (emp.getElementsByTagName("id")[0].textContent === id) {
+                    emp.remove();
+                    break;
+                }
+            }
+            displayEmployees();
+        }
+
+        loadEmployees();
+    </script>
+</body>
+
+</html>

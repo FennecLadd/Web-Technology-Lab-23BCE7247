@@ -1,0 +1,8 @@
+<library>
+    <book>
+        <id>B01</id>
+        <title>AI Basics</title>
+        <author>Andrew</author>
+        <status>Available</status>
+    </book>
+</library>
