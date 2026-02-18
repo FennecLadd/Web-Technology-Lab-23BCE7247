@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Management</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Student Management System</h2>
+
+    <form id="studentForm">
+        ID: <input type="number" id="id" required>
+        Name: <input type="text" id="name" required>
+        Dept: <input type="text" id="dept" required>
+        Marks: <input type="number" id="marks" required>
+        <button type="submit">Save</button>
+    </form>
+
+    <p id="message"></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Marks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script>
+        let students = [];
+
+        const tableBody = document.getElementById("tableBody");
+        const msg = document.getElementById("message");
+
+        document.getElementById("studentForm").addEventListener("submit", e => {
+            e.preventDefault();
+
+            const student = {
+                id: id.value,
+                name: name.value,
+                dept: dept.value,
+                marks: marks.value
+            };
+
+            students.push(student);
+            msg.textContent = "Student added successfully (200)";
+            render();
+        });
+
+        function render() {
+            tableBody.innerHTML = "";
+            students.forEach((s, i) => {
+                tableBody.innerHTML += `
+      <tr>
+        <td>${s.id}</td>
+        <td>${s.name}</td>
+        <td>${s.dept}</td>
+        <td>${s.marks}</td>
+        <td>
+          <button onclick="remove(${i})">Delete</button>
+        </td>
+      </tr>`;
+            });
+        }
+
+        function remove(index) {
+            students.splice(index, 1);
+            msg.textContent = "Student deleted (200)";
+            render();
+        }
+    </script>
+
+</body>
+
+</html>

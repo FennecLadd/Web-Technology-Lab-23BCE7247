@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Live Product Search</title>
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .product {
+            border-bottom: 1px solid #ccc;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Product Search</h2>
+    <input type="text" id="search" placeholder="Search products...">
+    <p id="loading" style="display:none;">Loading...</p>
+    <div id="results"></div>
+
+    <script>
+        let debounceTimer;
+
+        document.getElementById("search").addEventListener("input", function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                searchProducts(this.value);
+            }, 500);
+        });
+
+        function searchProducts(query) {
+            const resultsDiv = document.getElementById("results");
+            const loading = document.getElementById("loading");
+
+            loading.style.display = "block";
+            resultsDiv.innerHTML = "";
+
+            fetch("products.json")
+                .then(res => res.json())
+                .then(products => {
+                    loading.style.display = "none";
+                    const filtered = products.filter(p =>
+                        p.name.toLowerCase().includes(query.toLowerCase())
+                    );
+
+                    if (filtered.length === 0) {
+                        resultsDiv.innerHTML = "<p>No results found</p>";
+                        return;
+                    }
+
+                    filtered.forEach(p => {
+                        resultsDiv.innerHTML += `
+          <div class="product">
+            <b>${p.name}</b><br>
+            Price: ₹${p.price}<br>
+            Category: ${p.category}
+          </div>`;
+                    });
+                })
+                .catch(() => {
+                    loading.style.display = "none";
+                    resultsDiv.innerHTML = "<p>Error fetching products</p>";
+                });
+        }
+    </script>
+
+</body>
+
+</html>
