@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 1 - Marks Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        button {
+            width: 90%;
+            margin: 10px;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Marks Calculator</h2>
+        <input type="text" id="name" placeholder="Student Name">
+        <input type="number" id="m1" placeholder="Marks 1">
+        <input type="number" id="m2" placeholder="Marks 2">
+        <input type="number" id="m3" placeholder="Marks 3">
+        <button onclick="calculate()">Calculate</button>
+
+        <p id="output"></p>
+    </div>
+
+    <script>
+        function calculate() {
+            let studentName = document.getElementById("name").value;
+            let m1 = Number(document.getElementById("m1").value);
+            let m2 = Number(document.getElementById("m2").value);
+            let m3 = Number(document.getElementById("m3").value);
+
+            let total = m1 + m2 + m3;
+
+            const avg = (a, b, c) => (a + b + c) / 3;
+
+            let average = avg(m1, m2, m3);
+
+            document.getElementById("output").innerHTML =
+                `Student: ${studentName} <br>
+         Total: ${total} <br>
+         Average: ${average.toFixed(2)}`;
+        }
+    </script>
+
+</body>
+
+</html>

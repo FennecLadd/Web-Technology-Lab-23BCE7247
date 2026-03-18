@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3 - Course Enrollment</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f0f4ff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 320px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select,
+        button {
+            width: 90%;
+            margin: 10px;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Course Enrollment</h2>
+        <input type="text" id="course" placeholder="Course Name">
+        <input type="text" id="instructor" placeholder="Instructor Name">
+
+        <select id="seats">
+            <option value="yes">Seats Available</option>
+            <option value="no">Course Full</option>
+        </select>
+
+        <button onclick="enroll()">Enroll</button>
+
+        <p id="output"></p>
+    </div>
+
+    <script>
+        class Course {
+            constructor(courseName, instructor) {
+                this.courseName = courseName;
+                this.instructor = instructor;
+            }
+
+            displayCourse() {
+                return `Course: ${this.courseName}, Instructor: ${this.instructor}`;
+            }
+        }
+
+        function enroll() {
+            let courseName = document.getElementById("course").value;
+            let instructor = document.getElementById("instructor").value;
+            let seatsAvailable = document.getElementById("seats").value === "yes";
+
+            let course = new Course(courseName, instructor);
+
+            let message = course.displayCourse();
+
+            let enrollCourse = new Promise((resolve, reject) => {
+                if (seatsAvailable)
+                    resolve("Enrollment Successful");
+                else
+                    reject("Course Full");
+            });
+
+            enrollCourse
+                .then(res => {
+                    document.getElementById("output").innerHTML =
+                        `${message} <br> ${res}`;
+                })
+                .catch(err => {
+                    document.getElementById("output").innerHTML =
+                        `${message} <br> ${err}`;
+                });
+        }
+    </script>
+
+</body>
+
+</html>
