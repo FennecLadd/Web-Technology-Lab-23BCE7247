@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exercise 1 - Form Validation</title>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function FormApp() {
+            const [name, setName] = React.useState("");
+            const [email, setEmail] = React.useState("");
+            const [password, setPassword] = React.useState("");
+            const [errors, setErrors] = React.useState({});
+            const [success, setSuccess] = React.useState("");
+
+            const validate = () => {
+                let err = {};
+
+                if (!name) err.name = "Name required";
+                if (!email) err.email = "Email required";
+                else if (!/\S+@\S+\.\S+/.test(email)) err.email = "Invalid email";
+                if (!password) err.password = "Password required";
+
+                setErrors(err);
+                return Object.keys(err).length === 0;
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+
+                if (validate()) {
+                    setSuccess("Form submitted successfully!");
+                    setName("");
+                    setEmail("");
+                    setPassword("");
+                    setErrors({});
+                } else {
+                    setSuccess("");
+                }
+            };
+
+            return (
+                <div>
+                    <h2>Registration Form</h2>
+
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <br />
+                        {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+
+                        <input
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <br />
+                        {errors.email && <p style={{ color: "red" }}>{errors.email}</p>}
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <br />
+                        {errors.password && <p style={{ color: "red" }}>{errors.password}</p>}
+
+                        <button type="submit">Submit</button>
+                    </form>
+
+                    {success && <p style={{ color: "green" }}>{success}</p>}
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<FormApp />);
+    </script>
+</body>
+
+</html>
