@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exercise 2 - Student Cards</title>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function StudentCard({ name, department, marks }) {
+            return (
+                <div style={{ border: "1px solid black", margin: "10px", padding: "10px" }}>
+                    <h3>{name}</h3>
+                    <p>Department: {department}</p>
+                    <p>Marks: {marks}</p>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <h2>Student Cards</h2>
+
+                    <StudentCard name="Kushagra" department="CSE" marks="85" />
+                    <StudentCard name="Rahul" department="ECE" marks="78" />
+                    <StudentCard name="Anjali" department="IT" marks="92" />
+
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
